@@ -1,0 +1,66 @@
+-- sequencia dos cadastros até a venda em si 
+
+-- 1 step : cadastrar usuarios do sistema
+SELECT * FROM users;
+INSERT INTO 
+	users (id_user, u_name, username, u_password, lv_access)
+VALUES 
+	("1","GABRIEL ROCHA PINHEIRO","gabriel.rocha","123","Super Admin");
+
+-- 2 step : cadastrar fornecedor
+SELECT * FROM supplier;
+INSERT INTO 
+    supplier (id_supplier, s_name, contact) 
+VALUES 
+	("1","AMBEV","992992992992");
+    
+-- 3 step : cadastrar produto 
+SELECT * FROM products;
+INSERT INTO 
+    products (id_products, p_name, fk_id_supplier, p_active)
+VALUES
+	("1","KAISER","1",true);
+    
+-- 4 STEP : cadastrar estoque do produto
+SELECT * FROM stock_products;
+INSERT INTO 
+   stock_products (fk_id_products, qty)
+VALUES
+	("1", 350);
+    
+-- cadastrar preço de entrada e preço de venda do produto, essa opoção vai ser possivel editar depois
+SELECT * FROM  price_products;
+INSERT INTO 
+    price_products (id_price_products, fk_id_product, purchase_price, sale_price, p_active)
+VALUES 
+	("1","1",1.50,3.50, 1);
+    
+-- 5 STEP : cadastrar tipos de pagamento
+SELECT * FROM master_payments;
+INSERT INTO 
+    master_payments (p_type_name)
+VALUES 
+	("PIX"),
+    ("CARTÃO DE DEBITO"),
+    ("CARTÃO DE CREDITO"),
+    ("ESPECIE");
+    
+-- 6 step pedido 
+-- PONTO DE MELHORIA, ADICIONAR MASTER PARA O STATUS....
+SELECT * FROM sales_order;
+INSERT INTO 
+	sales_order (id_sales, fk_id_user_sale, s_status, fk_p_type_name)
+VALUES
+   ("2", "1", "pago", 'PIX');
+   
+-- 7 DETALHES DO PEDIDO 
+SELECT * FROM product_order_items;
+INSERT INTO 
+     product_order_items (id_p_order, fk_id_sales, fk_id_product, qty_item, price_purchase_item, price_sale_item)
+VALUES 
+	("1", "2", "1", 20, 1.00, 3.00)
+    
+-- ULTIMA ETAPA É A DA NOTA FISCAL
+	-- FALTA CRIAR A TABELA, CHECAR DEPOIS
+	
+

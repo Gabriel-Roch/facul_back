@@ -1,0 +1,96 @@
+create databse erp_system;
+use erp_system;
+
+-- tabela fornecedores
+create table supplier (
+id_supplier varchar(36) primary key,
+s_name varchar(120) unique,
+contact varchar(45),
+s_active BOOLEAN default 1
+); 
+
+-- tabela produtos
+create table products (
+id_products varchar(36) primary key,
+p_name varchar(120),
+fk_id_supplier varchar(36),
+p_active boolean DEFAULT 1,
+foreign key(fk_id_supplier)
+    references supplier(id_supplier),
+UNIQUE (p_name, fk_id_supplier)
+);
+
+-- tabela de preço dos produtos
+create table price_products (
+id_price_products varchar(36) primary key,
+fk_id_product varchar(36),
+purchase_price DECIMAL(10,2),
+sale_price DECIMAL(10,2),
+price_active boolean,
+dt_insert timestamp default current_timestamp,
+	foreign key (fk_id_product)
+references products (id_products)
+);
+
+-- tabela estoque produtos
+create table stock_products (
+fk_id_products varchar(36) primary key,
+qty int(11),
+foreign key (fk_id_products)
+   references products (id_products)
+);
+
+
+-- tabela de usuarios do sistema
+create table users (
+id_user varchar(36) primary key,
+u_name varchar(120),
+username varchar(80) unique,
+u_password varchar(45),
+lv_access varchar(45),
+user_active boolean default 1,
+dt_insert timestamp default current_timestamp
+);
+
+-- Master dos tipos de pagamentos
+create table master_payments (
+p_type_name varchar(45) primary key
+);
+
+-- pedido
+create table sales_order(
+id_sales varchar(36) primary key,
+fk_id_user_sale varchar(36),
+fk_p_type_name varchar(45) not null,
+s_status varchar (45),
+dt_sale timestamp default current_timestamp,
+	foreign key (fk_id_user_sale) 
+references users (id_user),
+	foreign key (fk_p_type_name)
+references master_payments (p_type_name)
+);
+
+-- tabela descritivo dos pedidos 
+create table product_order_items(
+id_p_order varchar(36) primary key,
+fk_id_sales varchar(36),
+fk_id_product varchar(36),
+qty_item int(11),
+price_purchase_item DECIMAL(10,2),
+price_sale_item DECIMAL(10,2),
+	foreign key (fk_id_product)
+references products(id_products),
+	foreign key(fk_id_sales)
+references sales_order(id_sales)
+);
+
+
+
+
+
+
+
+
+
+
+
